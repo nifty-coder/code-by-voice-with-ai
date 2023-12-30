@@ -1,0 +1,39 @@
+{
+  "name": "code-by-voice-with-ai",
+  "version": "1.0.0",
+  "displayName": "Code by Voice with AI",
+  "description": "Write code effortlessly using just your voice, powered by AI. Dictate your code, and let the AI create it for you!",
+  "publisher": "nifty-coder (Surya Kasibhatla)",
+  "engines": {
+    "vscode": "^1.69.0"
+  },
+  "dependencies": {
+    "googleapis": "^129.0.0",
+    "node-sass": "9.0",
+    "vosk": "^0.3.39"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onCommand:code-by-voice-with-ai.startSpeechToCode"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "code-by-voice-with-ai.startSpeechToCode",
+        "title": "Start Speech to Code"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Code by Voice with AI Settings",
+      "properties": {
+        "code-by-voice-with-api.bardApiKey": {
+          "type": "string",
+          "description": "Your Google Bard API key"
+        }
+      }
+    }
+  }
+}
