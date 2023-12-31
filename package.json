@@ -1,9 +1,10 @@
 {
   "name": "code-by-voice-with-ai",
   "version": "1.0.0",
+  "main": "extension.js",
   "displayName": "Code by Voice with AI",
   "description": "Write code effortlessly using just your voice, powered by AI. Dictate your code, and let the AI create it for you!",
-  "publisher": "nifty-coder (Surya Kasibhatla)",
+  "publisher": "nifty-coder",
   "engines": {
     "vscode": "^1.69.0"
   },
@@ -11,6 +12,10 @@
     "googleapis": "^129.0.0",
     "node-sass": "9.0",
     "vosk": "^0.3.39"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nifty-coder/code-by-voice-with-ai"
   },
   "categories": [
     "Programming Languages"
@@ -35,5 +40,9 @@
         }
       }
     }
+  },
+  "devDependencies": {
+    "@vscode/test-cli": "^0.0.4",
+    "@vscode/test-electron": "^2.3.8"
   }
 }
