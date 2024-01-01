@@ -34,7 +34,7 @@
       "type": "object",
       "title": "Code by Voice with AI Settings",
       "properties": {
-        "code-by-voice-with-api.bardApiKey": {
+        "code-by-voice-with-ai.bardApiKey": {
           "type": "string",
           "description": "Your Google Bard API key"
         }
