@@ -11,7 +11,12 @@
   "dependencies": {
     "googleapis": "^129.0.0",
     "node-sass": "9.0",
+    "openai": "^4.24.1",
     "vosk": "^0.3.39"
+  },
+  "devDependencies": {
+    "@vscode/test-cli": "^0.0.4",
+    "@vscode/test-electron": "^2.3.8"
   },
   "repository": {
     "type": "git",
@@ -34,15 +39,11 @@
       "type": "object",
       "title": "Code by Voice with AI Settings",
       "properties": {
-        "code-by-voice-with-ai.bardApiKey": {
+        "code-by-voice-with-ai.openaiApiKey": {
           "type": "string",
-          "description": "Your Google Bard API key"
+          "description": "Your OpenAI API key"
         }
       }
     }
-  },
-  "devDependencies": {
-    "@vscode/test-cli": "^0.0.4",
-    "@vscode/test-electron": "^2.3.8"
   }
 }

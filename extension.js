@@ -1,6 +1,7 @@
 const vscode = require('vscode');
 const { Model, KaldiRecognizer } = require('vosk');
-const { google } = require('googleapis');
+//const { google } = require('googleapis');
+const { OpenAIAPI } = require('openai');
 
 // Configuration
 const model = new Model('models/vosk-model-small-en-us-0.22');
@@ -46,13 +47,6 @@ const toggleListening = async () => {
 // Function to start listening
 const startListening = async () => {
     try {
-      // Securely retrieve the Bard API key
-      const bardApiKey = await getSecureApiKey('code-by-voice-with-ai.bardApiKey');
-  
-      // Create a Bard client for making API requests
-      const bardClient = new google.language({ version: 'v1', auth: bardApiKey });
-  
-      // Get access to the user's microphone
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   
       // Start listening for speech using Vosk
@@ -127,21 +121,22 @@ const transcribeAudio = async () => {
 
 // Function to generate code using Bard
 const generateCode = async (transcribedText) => {
-  const bardApiKey = await getSecureApiKey('code-by-voice-with-ai.bardApiKey');
-  const bardClient = new google.language({ version: 'v1', auth: bardApiKey });
+  const openaiApiKey = await getSecureApiKey('code-by-voice-with-ai.openaiApiKey');
+  const openaiConnnection = new OpenAIAPI({ key: openaiApiKey });
 
-  const bardResponse = await bardClient.documents.annotateText({
-    document: {
-      type: 'PLAIN_TEXT',
-      content: transcribedText
-    },
-    features: {
-      extractSyntax: true,
-      extractEntities: true
-    }
+  const openaiResponse = await openaiConnnection.complete({
+    prompt: transcribedText,
+    model: 'text-davinci-003',
+    temperature: 0.4,
   });
 
-  return bardResponse.data.text;
+  const generatedCode = openaiResponse.data.text;
+  // Filter out text before and after code produced by OpenAI response
+  const startIndex = generatedCode.indexOf('```');
+  const endIndex = generatedCode.lastIndexOf('```');
+  const filteredCode = generatedCode.substring(startIndex, endIndex + 3);
+  console.log('Generated code:', filteredCode);
+  return filteredCode;
 };
 
 // Register command to toggle listening
@@ -149,11 +144,11 @@ vscode.commands.registerCommand('code-by-voice-with-ai.startSpeechToCode', toggl
 
 // Listen for settings changes (to store API key securely)
 vscode.workspace.onDidChangeConfiguration((event) => {
-  if (event.affectsConfiguration('code-by-voice-with-ai.bardApiKey')) {
-    const newApiKey = event.getConfiguration().get('code-by-voice-with-ai.bardApiKey');
+  if (event.affectsConfiguration('code-by-voice-with-ai.openaiApiKey')) {
+    const newApiKey = event.getConfiguration().get('code-by-voice-with-ai.openaiApiKey');
 
     // Use SecretStorage to store the key securely
-    vscode.SecretStorage.getSecretStorage().store('code-by-voice-with-ai.bardApiKey', newApiKey)
+    vscode.SecretStorage.getSecretStorage().store('code-by-voice-with-ai.openaiApiKey', newApiKey)
       .then(() => {
         vscode.window.showInformationMessage('API key stored securely!');
       })
