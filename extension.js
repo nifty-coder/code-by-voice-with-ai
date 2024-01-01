@@ -139,8 +139,14 @@ const generateCode = async (transcribedText) => {
   return filteredCode;
 };
 
+const activate = (context) => {
+  context.subscriptions.push(statusBarItem);
+  toggleListening();
+};
+
 // Register command to toggle listening
-vscode.commands.registerCommand('code-by-voice-with-ai.startSpeechToCode', toggleListening);
+vscode.commands.registerCommand('code-by-voice-with-ai.startSpeechToCode', activate);
+
 
 // Listen for settings changes (to store API key securely)
 vscode.workspace.onDidChangeConfiguration((event) => {
